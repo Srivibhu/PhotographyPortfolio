@@ -1,75 +1,65 @@
 import type { Collection } from "./types"
 import { fetchCloudinaryPhotos, getCloudinaryFolder } from "./cloudinary"
 
-interface CollectionConfig {
-  id: string
-  slug: string
-  title: string
-  description: string
-  fullDescription: string
-  tags: string[]
-  featured: boolean
-}
-
-const collectionConfigs: CollectionConfig[] = [
+const collectionConfigs = [
   {
     id: "1",
-    slug: "new-zealand",
-    title: "New Zealand Landscapes",
-    description: "Breathtaking landscapes from across New Zealand",
+    slug: "2024-grad",
+    title: "Class of 2024",
+    description: "Graduation moments and proud celebrations",
     fullDescription:
-      "New Zealand offers some of the most diverse and dramatic landscapes in the world. From the snow-capped Southern Alps to the pristine beaches of the Coromandel Peninsula, this collection captures the raw beauty and majesty of Aotearoa.",
-    tags: ["Nature", "Landscape", "Mountains"],
+      "Capstone ceremonies, quiet reflections, and the rush of academic milestones—this series documents the textures, expressions, and light that defined the Class of 2024.",
+    tags: ["Portrait", "Graduation", "Studio"],
     featured: true,
   },
   {
     id: "2",
-    slug: "tokyo",
-    title: "Japan: Urban & Traditional",
-    description: "The contrast between modern and traditional Japan",
+    slug: "landscape",
+    title: "Landscape Studies",
+    description: "Moody skies, reflections, and calm horizons",
     fullDescription:
-      "Japan presents a fascinating juxtaposition of ultramodern urban environments and serene traditional settings. This collection explores the visual dialogue between Tokyo's neon-lit streets and the tranquil temples of Kyoto, capturing Japan's unique cultural identity.",
-    tags: ["Urban", "Culture", "Architecture"],
+      "From misty riversides to rim-lit summits, I chase wide-open frames and subtle gradients where the sky meets the earth.",
+    tags: ["Landscape", "Nature", "Color"],
     featured: true,
   },
   {
     id: "3",
-    slug: "bali",
-    title: "Bali: Island of the Gods",
-    description: "Tropical paradise and cultural heritage of Bali",
+    slug: "nyc",
+    title: "NYC Cityscapes",
+    description: "Nightlife, neon, and layered streets",
     fullDescription:
-      "Known as the Island of the Gods, Bali captivates with its dramatic landscapes, vibrant cultural heritage, and spiritual atmosphere. This collection documents the island's terraced rice fields, ancient temples, pristine beaches, and the warmth of Balinese people.",
-    tags: ["Tropical", "Culture", "Nature"],
+      "New York is a collage of lights and movement. These captures focus on the energy found in rush-hour crowds, silent rooftops, and reflective puddles.",
+    tags: ["Street", "Urban", "Night"],
     featured: true,
   },
   {
     id: "4",
-    slug: "iceland",
-    title: "Iceland: Land of Fire and Ice",
-    description: "Dramatic landscapes of Iceland",
+    slug: "beach",
+    title: "Coastal Light",
+    description: "Shorelines, dunes, and salt air",
     fullDescription:
-      "Iceland's otherworldly landscapes showcase nature's raw power and beauty. This collection captures the country's dramatic contrasts: steaming geothermal areas alongside massive glaciers, thundering waterfalls cutting through black lava fields, and the ethereal Northern Lights dancing above it all.",
-    tags: ["Nature", "Landscape", "Winter"],
+      "Ocean mornings and low-sun glow. This collection borrows pastel walls of fog and the play between sand and surf.",
+    tags: ["Beach", "Light", "Seascape"],
     featured: false,
   },
   {
     id: "5",
-    slug: "morocco",
-    title: "Colors of Morocco",
-    description: "Vibrant markets, architecture, and desert landscapes",
+    slug: "fam",
+    title: "Family & Friends",
+    description: "Warm, intimate portraits in daily life",
     fullDescription:
-      "Morocco is a feast for the senses, with its vibrant colors, intricate patterns, and diverse landscapes. This collection explores the bustling medinas, ancient kasbahs, vast Sahara dunes, and the rich cultural tapestry that makes Morocco so visually captivating.",
-    tags: ["Culture", "Desert", "Architecture"],
+      "Documentary-style frames featuring the people who keep me grounded. The emphasis is on authenticity, quiet joy, and shared rituals.",
+    tags: ["Portrait", "Documentary", "Family"],
     featured: false,
   },
   {
     id: "6",
-    slug: "urban-portraits",
-    title: "Urban Portraits",
-    description: "Street photography and urban life around the world",
+    slug: "trails",
+    title: "Trails & Wilderness",
+    description: "Foggy treelines and rugged paths",
     fullDescription:
-      "This collection focuses on the human element within urban environments. Through candid street photography and environmental portraits, it captures the diversity, energy, and stories of city dwellers across different cultures and metropolises around the world.",
-    tags: ["Urban", "People", "Street"],
+      "Long hikes through the woods, close studies of moss and stone, and the way early light filters through dense canopy.",
+    tags: ["Outdoor", "Landscape", "Adventure"],
     featured: false,
   },
 ]

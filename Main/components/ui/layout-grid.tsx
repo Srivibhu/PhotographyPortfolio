@@ -15,10 +15,10 @@ const SkeletonOne = () => {
   return (
     <div>
       <p className="font-bold md:text-4xl text-xl text-white">
-        Urban Portraits
+        NYC Cityscapes
       </p>
       <p className="font-normal text-base my-4 max-w-lg text-neutral-200">
-        Capturing the essence of city life through intimate street photography and urban portraiture.
+        Neon reflections and layered streets after nightfall.
       </p>
     </div>
   );
@@ -28,10 +28,10 @@ const SkeletonTwo = () => {
   return (
     <div>
       <p className="font-bold md:text-4xl text-xl text-white">
-        Tokyo Nights
+        Coastal Light
       </p>
       <p className="font-normal text-base my-4 max-w-lg text-neutral-200">
-        Exploring the vibrant nightlife and neon-lit streets of Tokyo's urban landscape.
+        Soft mornings along the shoreline and quiet dunes.
       </p>
     </div>
   );
@@ -41,10 +41,10 @@ const SkeletonThree = () => {
   return (
     <div>
       <p className="font-bold md:text-4xl text-xl text-white">
-        New Zealand
+        Trails & Wilderness
       </p>
       <p className="font-normal text-base my-4 max-w-lg text-neutral-200">
-        Documenting the raw beauty and untamed wilderness of New Zealand's landscapes.
+        Mossy logs, foggy ridges, and the stillness of long hikes.
       </p>
     </div>
   );
@@ -54,10 +54,10 @@ const SkeletonFour = () => {
   return (
     <div>
       <p className="font-bold md:text-4xl text-xl text-white">
-        Iceland
+        Family & Friends
       </p>
       <p className="font-normal text-base my-4 max-w-lg text-neutral-200">
-        Capturing the ethereal beauty of Iceland's dramatic landscapes and natural wonders.
+        Warm, candid moments shared with loved ones.
       </p>
     </div>
   );
