@@ -126,5 +126,27 @@ export async function fetchAllCloudinaryPhotos(maxResults: number = 500): Promis
 }
 
 export function getCloudinaryFolder(slug: string) {
-  return `${CLOUDINARY_BASE_FOLDER}/${slug}`
+  // Map slugs to actual Cloudinary folder names
+  const folderMapping: Record<string, string> = {
+    'portraits-beach': 'Portraits - Beach',
+    'landscapes-dallas': 'Landscapes - Dallas',
+    'portraits-family': 'Portraits - Family',
+    'portraits-graduation': 'Portraits - Graduation',
+    'portraits-nj-moments': 'Portraits - NJ Moments',
+    'commercial-jewelry': 'Commercial - Jewelry',
+    'landscapes-nature': 'Landscapes - Nature',
+    'portraits-metuchen': 'Portraits - Metuchen',
+    'nyc': 'nyc',
+    'europe': 'Europe',
+    'random': 'random',
+    'trails': 'trails',
+    'events': 'events', // This will be handled specially
+    'mata24 event': 'mata24 event',
+    'nats event': 'nats event',
+    'svm-events': 'svm-events',
+    'new-year-23': 'new-year-23'
+  }
+
+  const actualFolder = folderMapping[slug] || slug
+  return `${CLOUDINARY_BASE_FOLDER}/${actualFolder}`
 }
