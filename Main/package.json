@@ -5,12 +5,13 @@
   "author": "Travis Lord <hi@travislord.au>",
   "scripts": {
     "validate-images": "ts-node scripts/validate-images.ts",
-    "dev": "yarn validate-images --dry-run && next dev",
-    "build": "yarn validate-images --dry-run && next build",
+    "dev": "npm run validate-images -- --dry-run && next dev",
+    "dev:cloudinary": "next dev",
+    "build": "npm run validate-images -- --dry-run && next build",
     "start": "next start",
     "lint": "next lint",
-    "predev": "ts-node scripts/validate-images.ts",
-    "prebuild": "ts-node scripts/validate-images.ts"
+    "predev": "npm run validate-images",
+    "prebuild": "npm run validate-images"
   },
   "dependencies": {
     "@emotion/is-prop-valid": "latest",

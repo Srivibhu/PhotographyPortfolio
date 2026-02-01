@@ -1,13 +1,19 @@
 import { NextResponse } from "next/server"
 import { getCollectionConfigs, getFeaturedCollections } from "@/lib/collections"
-import { fetchCloudinaryPhotos, getCloudinaryFolder } from "@/lib/cloudinary"
+import { fetchCloudinaryPhotos, getCloudinaryFolder, fetchAllCloudinaryPhotos } from "@/lib/cloudinary"
 
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url)
   const featured = searchParams.get("featured") === "true"
   const all = searchParams.get("all") === "true"
+  const allPhotos = searchParams.get("allPhotos") === "true"
 
   try {
+    if (allPhotos) {
+      const photos = await fetchAllCloudinaryPhotos()
+      return NextResponse.json({ photos })
+    }
+
     if (featured) {
       const collections = await getFeaturedCollections()
       return NextResponse.json({ collections })

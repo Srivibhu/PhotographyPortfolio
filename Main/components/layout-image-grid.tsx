@@ -139,18 +139,18 @@ export function LayoutGridDemo() {
 
   useEffect(() => {
     let isMounted = true
-    fetch("/api/cloudinary/collections?all=true")
+    fetch("/api/cloudinary/collections?allPhotos=true")
       .then((res) => res.json())
       .then((data) => {
         if (!isMounted) return
-        const collections = data.collections || []
-        const nextCards = collections.slice(0, 4).map((collection: any, index: number) => ({
+        const photos = data.photos || []
+        const nextCards = photos.slice(0, 4).map((photo: any, index: number) => ({
           id: index + 1,
           content: (
-            <CardContent title={collection.title} description={collection.description} />
+            <CardContent title={`Photo ${index + 1}`} description="From your Cloudinary collection" />
           ),
           className: index % 3 === 0 ? "md:col-span-2" : "col-span-1",
-          thumbnail: collection.coverImage || "/placeholder.svg",
+          thumbnail: photo.src || "/placeholder.svg",
         }))
 
         if (nextCards.length) {

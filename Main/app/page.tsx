@@ -16,12 +16,13 @@ export default function Home() {
 
   useEffect(() => {
     let isMounted = true
-    fetch("/api/cloudinary/collections?featured=true")
+    fetch("/api/cloudinary/collections?allPhotos=true")
       .then((res) => res.json())
       .then((data) => {
         if (!isMounted) return
-        const imageUrl = data.collections?.[1]?.coverImage || data.collections?.[0]?.coverImage || ""
-        setIntroImage(imageUrl)
+        const photos = data.photos || []
+        const randomImage = photos[Math.floor(Math.random() * photos.length)]
+        setIntroImage(randomImage?.src || "")
       })
       .catch(() => {
         if (!isMounted) return

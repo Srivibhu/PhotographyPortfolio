@@ -12,18 +12,18 @@ const DEMO_IMAGES: string[] = []
 export function HeroGalleryScroll() {
   const [images, setImages] = useState<string[]>([])
   const gridImages =
-    images.length >= 5
-      ? images.slice(0, 5)
-      : [...images, ...Array.from({ length: 5 - images.length }, () => "/placeholder.svg")]
+    images.length >= 9
+      ? images.slice(0, 9)
+      : [...images, ...Array.from({ length: 9 - images.length }, () => "/placeholder.svg")]
 
   useEffect(() => {
     let isMounted = true
-    fetch("/api/cloudinary/collections?featured=true")
+    fetch("/api/cloudinary/collections?allPhotos=true")
       .then((res) => res.json())
       .then((data) => {
         if (!isMounted) return
-        const urls = (data.collections || [])
-          .map((collection: { coverImage?: string }) => collection.coverImage)
+        const urls = (data.photos || [])
+          .map((photo: { src: string }) => photo.src)
           .filter(Boolean)
         setImages(urls)
       })
