@@ -152,6 +152,7 @@ export function getCloudinaryFolder(slug: string): FolderQuery {
     "europe": "Europe",
     "trails": "trails",
     "random": "random",
+    "author": "Author",
   }
 
   const actualFolder = folderMapping[slug] || slug

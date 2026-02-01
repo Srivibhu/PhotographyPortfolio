@@ -11,10 +11,13 @@ const DEMO_IMAGES: string[] = []
 
 export function HeroGalleryScroll() {
   const [images, setImages] = useState<string[]>([])
-  const gridImages =
-    images.length >= 9
-      ? images.slice(0, 9)
-      : [...images, ...Array.from({ length: 9 - images.length }, () => "/placeholder.svg")]
+  const fallbackImages = Array.from({ length: 9 - images.length }, () => "/placeholder.svg")
+  const gridImages = (images.length >= 9 ? images.slice(0, 9) : [...images, ...fallbackImages]).map(
+    (src, index) => ({
+      src,
+      position: gridPositions[index] || "50% 50%",
+    }),
+  )
 
   useEffect(() => {
     let isMounted = true
@@ -40,15 +43,16 @@ export function HeroGalleryScroll() {
   return (
     <ContainerScroll className="h-[350vh]">
       <BentoGrid className="sticky left-0 top-0 z-0 h-screen w-full p-4">
-        {gridImages.map((imageUrl, index) => (
+        {gridImages.map((image, index) => (
           <BentoCell
             key={index}
             className="overflow-hidden rounded-3xl shadow-xl"
           >
             <img
               className="size-full object-cover object-center"
-              src={imageUrl}
+              src={image.src}
               alt=""
+              style={{ objectPosition: image.position }}
             />
           </BentoCell>
         ))}
@@ -95,6 +99,18 @@ export function HeroGalleryScroll() {
     </ContainerScroll>
   )
 }
+
+const gridPositions = [
+  "50% 35%",
+  "50% 20%",
+  "50% 35%",
+  "50% 45%",
+  "50% 50%",
+  "50% 30%",
+  "50% 40%",
+  "50% 55%",
+  "50% 35%",
+]
 
 export function HeroDemo1() {
   return (

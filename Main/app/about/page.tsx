@@ -12,13 +12,13 @@ export default function AboutPage() {
 
   useEffect(() => {
     let isMounted = true
-    fetch("/api/cloudinary/collections?featured=true")
+    fetch("/api/cloudinary/author")
       .then((res) => res.json())
       .then((data) => {
         if (!isMounted) return
-        const featured = data.collections || []
-        setHeroImage(featured?.[0]?.coverImage || "")
-        setBioImage(featured?.[1]?.coverImage || featured?.[0]?.coverImage || "")
+        const authorImage = data.image || ""
+        setHeroImage(authorImage)
+        setBioImage(authorImage)
       })
       .catch(() => {
         if (!isMounted) return
