@@ -3,62 +3,92 @@ const path = require('path');
 
 // Collection image counts and formats
 const collectionImages: Record<string, { count: number; formats: string[] }> = {
-  'bali': { 
-    count: 16,
-    formats: ['jpeg', 'jpg']  // Bali has images in both formats
-  },
-  'morocco': { 
-    count: 21,  // Updated count based on actual files
-    formats: ['webp']
-  },
-  'tokyo': { 
-    count: 20,  // Updated count based on actual files
-    formats: ['jpg']
-  },
-  'new-zealand': { 
-    count: 18,
-    formats: ['jpg']
-  },
-  'iceland': { 
-    count: 14,
-    formats: ['jpg']
-  },
-  'urban-portraits': { 
-    count: 16,
-    formats: ['jpg']
-  },
-  'europe': {
+  'portraits-beach': { 
     count: 20,
     formats: ['jpg', 'jpeg']
   },
-  'events': {
+  'landscapes-dallas': { 
     count: 15,
+    formats: ['jpg', 'jpeg']
+  },
+  'portraits-family': { 
+    count: 25,
+    formats: ['jpg', 'jpeg']
+  },
+  'portraits-graduation': { 
+    count: 30,
+    formats: ['jpg', 'jpeg']
+  },
+  'portraits-nj-moments': { 
+    count: 20,
+    formats: ['jpg', 'jpeg']
+  },
+  'commercial-jewelry': { 
+    count: 15,
+    formats: ['jpg', 'jpeg']
+  },
+  'landscapes-nature': { 
+    count: 25,
+    formats: ['jpg', 'jpeg']
+  },
+  'portraits-metuchen': { 
+    count: 20,
+    formats: ['jpg', 'jpeg']
+  },
+  'nyc': { 
+    count: 30,
+    formats: ['jpg', 'jpeg']
+  },
+  'europe': {
+    count: 40,
+    formats: ['jpg', 'jpeg']
+  },
+  'random': {
+    count: 20,
+    formats: ['jpg', 'jpeg']
+  },
+  'trails': {
+    count: 25,
+    formats: ['jpg', 'jpeg']
+  },
+  'events': {
+    count: 50, // Combined count for all event folders
     formats: ['jpg', 'jpeg']
   }
 }
 
 // Collection format mapping for cover images
 const collectionFormats: Record<string, string> = {
-  'bali': 'jpeg',
-  'morocco': 'webp',
-  'tokyo': 'jpg',
-  'new-zealand': 'jpg',
-  'iceland': 'jpg',
-  'urban-portraits': 'jpg',
+  'portraits-beach': 'jpg',
+  'landscapes-dallas': 'jpg',
+  'portraits-family': 'jpg',
+  'portraits-graduation': 'jpg',
+  'portraits-nj-moments': 'jpg',
+  'commercial-jewelry': 'jpg',
+  'landscapes-nature': 'jpg',
+  'portraits-metuchen': 'jpg',
+  'nyc': 'jpg',
   'europe': 'jpg',
+  'random': 'jpg',
+  'trails': 'jpg',
   'events': 'jpg'
 }
 
 // Collection folder name mapping (for case sensitivity)
 const collectionFolders: Record<string, string> = {
-  'bali': 'Bali',
-  'morocco': 'Morocco',
-  'tokyo': 'Tokyo',
-  'new-zealand': 'new zealand',
-  'iceland': 'Iceland',
-  'urban-portraits': 'Urban Portraits',
+  'portraits-beach': 'Portraits - Beach',
+  'landscapes-dallas': 'Landscapes - Dallas',
+  'portraits-family': 'Portraits - Family',
+  'portraits-graduation': 'Portraits - Graduation',
+  'portraits-nj-moments': 'Portraits - NJ Moments',
+  'commercial-jewelry': 'Commercial - Jewelry',
+  'landscapes-nature': 'Landscapes - Nature',
+  'portraits-metuchen': 'Portraits - Metuchen',
+  'nyc': 'nyc',
   'europe': 'Europe',
-  'events': 'Events'
+  'random': 'random',
+  'trails': 'trails',
+  'events': 'Events' // This will be a merged folder
 }
 
 interface ValidationResult {
