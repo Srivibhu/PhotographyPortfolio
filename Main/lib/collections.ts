@@ -4,50 +4,135 @@ import { fetchCloudinaryPhotos, getCloudinaryFolder } from "./cloudinary"
 const collectionConfigs = [
   {
     id: "1",
-    slug: "portraits-graduation",
-    title: "Graduation Portraits",
-    description: "Graduation moments and proud celebrations",
-    fullDescription:
-      "Capstone ceremonies, quiet reflections, and the rush of academic milestones—this series documents the textures, expressions, and light that defined the Class of 2024.",
-    tags: ["Portrait", "Graduation", "Studio"],
-    featured: true,
-  },
-  {
-    id: "2",
-    slug: "landscapes-nature",
-    title: "Nature Landscapes",
-    description: "Moody skies, reflections, and calm horizons",
-    fullDescription:
-      "From misty riversides to rim-lit summits, I chase wide-open frames and subtle gradients where the sky meets the earth.",
-    tags: ["Landscape", "Nature", "Color"],
-    featured: true,
-  },
-  {
-    id: "3",
-    slug: "nyc",
-    title: "NYC Cityscapes",
-    description: "Nightlife, neon, and layered streets",
-    fullDescription:
-      "New York is a collage of lights and movement. These captures focus on the energy found in rush-hour crowds, silent rooftops, and reflective puddles.",
-    tags: ["Street", "Urban", "Night"],
-    featured: true,
-  },
-  {
-    id: "4",
     slug: "portraits-beach",
     title: "Beach Portraits",
     description: "Shorelines, dunes, and salt air",
     fullDescription:
       "Ocean mornings and low-sun glow. This collection borrows pastel walls of fog and the play between sand and surf.",
     tags: ["Beach", "Light", "Seascape"],
+    featured: true,
+  },
+  {
+    id: "2",
+    slug: "portraits-studio",
+    title: "Studio Portraits",
+    description: "Professional studio photography",
+    fullDescription:
+      "Controlled lighting and professional studio environments capturing personality and character.",
+    tags: ["Studio", "Portrait", "Professional"],
+    featured: true,
+  },
+  {
+    id: "3",
+    slug: "portraits-street",
+    title: "Street Portraits",
+    description: "Candid moments in urban environments",
+    fullDescription:
+      "Spontaneous portraits captured in the streets, revealing authentic expressions and urban character.",
+    tags: ["Street", "Portrait", "Urban"],
+    featured: false,
+  },
+  {
+    id: "4",
+    slug: "portraits-wedding",
+    title: "Wedding Portraits",
+    description: "Celebrating love and commitment",
+    fullDescription:
+      "Intimate moments and joyful celebrations captured during wedding ceremonies and receptions.",
+    tags: ["Wedding", "Portrait", "Celebration"],
     featured: false,
   },
   {
     id: "5",
-    slug: "portraits-family",
-    title: "Family Portraits",
-    description: "Warm, intimate portraits in daily life",
+    slug: "landscapes",
+    title: "Landscapes",
+    description: "Natural and urban landscapes",
     fullDescription:
+      "Beautiful landscapes from nature to cityscapes, capturing the beauty of different environments.",
+    tags: ["Landscape", "Nature", "Urban"],
+    featured: true,
+  },
+  {
+    id: "6",
+    slug: "street-photography",
+    title: "Street Photography",
+    description: "Urban life and street scenes",
+    fullDescription:
+      "Documentary-style photography capturing the energy and character of street life.",
+    tags: ["Street", "Documentary", "Urban"],
+    featured: false,
+  },
+  {
+    id: "7",
+    slug: "events-birthday",
+    title: "Birthday Events",
+    description: "Birthday celebrations and parties",
+    fullDescription:
+      "Joyful birthday celebrations captured with energy and emotion.",
+    tags: ["Events", "Birthday", "Celebration"],
+    featured: false,
+  },
+  {
+    id: "8",
+    slug: "events-corporate",
+    title: "Corporate Events",
+    description: "Professional corporate gatherings",
+    fullDescription:
+      "Corporate events and professional gatherings documented with attention to detail.",
+    tags: ["Corporate", "Events", "Professional"],
+    featured: false,
+  },
+  {
+    id: "9",
+    slug: "events-wedding",
+    title: "Wedding Events",
+    description: "Wedding ceremonies and receptions",
+    fullDescription:
+      "Complete wedding documentation from ceremonies to receptions.",
+    tags: ["Wedding", "Events", "Ceremony"],
+    featured: false,
+  },
+  {
+    id: "10",
+    slug: "europe",
+    title: "Europe",
+    description: "European travel photography",
+    fullDescription:
+      "Photographs from travels across Europe, capturing culture, architecture, and landscapes.",
+    tags: ["Travel", "Europe", "Culture"],
+    featured: true,
+  },
+  {
+    id: "11",
+    slug: "events",
+    title: "Events",
+    description: "Various events and celebrations",
+    fullDescription:
+      "A collection of various events including parties, celebrations, and special occasions.",
+    tags: ["Events", "Celebration", "Social"],
+    featured: false,
+  },
+  {
+    id: "12",
+    slug: "architecture",
+    title: "Architecture",
+    description: "Architectural photography",
+    fullDescription:
+      "Beautiful architectural designs and structures captured with artistic vision.",
+    tags: ["Architecture", "Design", "Urban"],
+    featured: false,
+  },
+  {
+    id: "13",
+    slug: "nature",
+    title: "Nature",
+    description: "Natural landscapes and wildlife",
+    fullDescription:
+      "Photographs of natural beauty, from landscapes to wildlife in their natural habitats.",
+    tags: ["Nature", "Landscape", "Wildlife"],
+    featured: false,
+  },
+]
       "Documentary-style frames featuring the people who keep me grounded. The emphasis is on authenticity, quiet joy, and shared rituals.",
     tags: ["Portrait", "Documentary", "Family"],
     featured: false,
@@ -162,19 +247,8 @@ export async function getCollection(slug: string): Promise<Collection | undefine
   let coverImage = ""
 
   try {
-    if (slug === 'events') {
-      // Special handling for events - merge multiple folders
-      const eventFolders = ['mata24 event', 'nats event', 'svm-events', 'new-year-23']
-      const allPhotos = await Promise.all(
-        eventFolders.map(folder => fetchCloudinaryPhotos(`${CLOUDINARY_BASE_FOLDER}/${folder}`))
-      )
-      photos = allPhotos.flat()
-      // Sort by creation date, most recent first
-      photos.sort((a, b) => new Date(b.metadata.takenAt || '').getTime() - new Date(a.metadata.takenAt || '').getTime())
-    } else {
-      const folder = getCloudinaryFolder(slug)
-      photos = await fetchCloudinaryPhotos(folder)
-    }
+    const folder = getCloudinaryFolder(slug)
+    photos = await fetchCloudinaryPhotos(folder)
     coverImage = photos[0]?.src || ""
   } catch (error) {
     photos = []
@@ -195,19 +269,9 @@ export async function getFeaturedCollections(): Promise<Collection[]> {
     featuredConfigs.map(async (collection) => {
       let coverImage = ""
       try {
-        if (collection.slug === 'events') {
-          // Special handling for events - merge multiple folders
-          const eventFolders = ['mata24 event', 'nats event', 'svm-events', 'new-year-23']
-          const allPhotos = await Promise.all(
-            eventFolders.map(folder => fetchCloudinaryPhotos(`${CLOUDINARY_BASE_FOLDER}/${folder}`, 1))
-          )
-          const firstPhoto = allPhotos.flat()[0]
-          coverImage = firstPhoto?.src || ""
-        } else {
-          const folder = getCloudinaryFolder(collection.slug)
-          const photos = await fetchCloudinaryPhotos(folder, 1)
-          coverImage = photos[0]?.src || ""
-        }
+        const folder = getCloudinaryFolder(collection.slug)
+        const photos = await fetchCloudinaryPhotos(folder, 1)
+        coverImage = photos[0]?.src || ""
       } catch (error) {
         coverImage = ""
       }

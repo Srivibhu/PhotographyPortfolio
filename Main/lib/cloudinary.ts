@@ -48,7 +48,7 @@ export async function fetchCloudinaryPhotos(folder: string, maxResults: number =
       Authorization: buildAuthHeader(),
     },
     body: JSON.stringify({
-      expression: `folder:${folder}`,
+      expression: `folder:${CLOUDINARY_BASE_FOLDER}/*`,
       max_results: maxResults,
       sort_by: [{ created_at: "desc" }],
     }),
@@ -129,22 +129,18 @@ export function getCloudinaryFolder(slug: string) {
   // Map slugs to actual Cloudinary folder names
   const folderMapping: Record<string, string> = {
     'portraits-beach': 'Portraits - Beach',
-    'landscapes-dallas': 'Landscapes - Dallas',
-    'portraits-family': 'Portraits - Family',
-    'portraits-graduation': 'Portraits - Graduation',
-    'portraits-nj-moments': 'Portraits - NJ Moments',
-    'commercial-jewelry': 'Commercial - Jewelry',
-    'landscapes-nature': 'Landscapes - Nature',
-    'portraits-metuchen': 'Portraits - Metuchen',
-    'nyc': 'nyc',
+    'portraits-studio': 'Portraits - Studio',
+    'portraits-street': 'Portraits - Street',
+    'portraits-wedding': 'Portraits - Wedding',
+    'landscapes': 'Landscapes',
+    'street-photography': 'Street Photography',
+    'events-birthday': 'Events - Birthday',
+    'events-corporate': 'Events - Corporate',
+    'events-wedding': 'Events - Wedding',
     'europe': 'Europe',
-    'random': 'random',
-    'trails': 'trails',
-    'events': 'events', // This will be handled specially
-    'mata24 event': 'mata24 event',
-    'nats event': 'nats event',
-    'svm-events': 'svm-events',
-    'new-year-23': 'new-year-23'
+    'events': 'Events',
+    'architecture': 'Architecture',
+    'nature': 'Nature',
   }
 
   const actualFolder = folderMapping[slug] || slug
