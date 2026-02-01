@@ -2,9 +2,9 @@ import { MetadataRoute } from 'next'
 
 export default function manifest(): MetadataRoute.Manifest {
   return {
-    name: 'X100 Photographer Portfolio',
-    short_name: 'X100',
-    description: 'A Next.js portfolio for professional photographers, designed to flawlessly showcase powerful visual stories.',
+    name: 'Srivibhu Ponakala Photography',
+    short_name: 'Srivibhu Photo',
+    description: 'Automotive, travel, and lifestyle photography by Srivibhu Ponakala.',
     start_url: '/',
     display: 'standalone',
     background_color: '#000000',

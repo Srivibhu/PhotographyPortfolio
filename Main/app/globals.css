@@ -4,7 +4,7 @@
 
 :root {
   --font-inter: "Inter", sans-serif;
-  --font-old-london: "Old London";
+  --font-display: "Quicksand", sans-serif;
 }
 
 @layer utilities {
@@ -171,31 +171,21 @@ body.sounds-muted a {
   @apply focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2;
 }
 
-/* Font family */
-@font-face {
-  font-family: "Old London";
-  src: url("/fonts/Old London Font.woff") format("woff");
-  font-weight: normal;
-  font-style: normal;
-  font-display: swap;
-         }
-    
-         h1,
-         h2,
-         h3,
-         h4,
-         h5,
-         h6 {
-           font-family: var(--font-old-london);
-           font-weight: 400;
-           font-style: normal;
-           font-display: swap;
-           letter-spacing: 0.07em;
-         }
+/* Headings */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--font-display);
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
 
-/* Font family */
-.font-old-london {
-  font-family: var(--font-old-london);
+/* Display font */
+.font-display {
+  font-family: var(--font-display);
 }
 
 /* Dynamic frame layout */

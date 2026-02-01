@@ -11,7 +11,7 @@ const config: Config = {
     extend: {
       fontFamily: {
         sans: ["var(--font-inter)"],
-        oldLondon: ["var(--font-old-london)"],
+        display: ["var(--font-display)"],
       },
       colors: {
         border: "hsl(var(--border))",

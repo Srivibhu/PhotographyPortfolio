@@ -1,21 +1,14 @@
 "use client"
 
-import { useState } from 'react'
-import { useForm, ValidationError } from '@formspree/react'
-import { ContactFormData } from '@/lib/types'
-import { cn } from '@/lib/utils'
+import { useForm, ValidationError } from "@formspree/react"
+import { cn } from "@/lib/utils"
 
 interface ContactFormProps {
   className?: string
 }
 
 export function ContactForm({ className }: ContactFormProps) {
-  const [state, handleSubmit] = useForm("xxxxxxxx") // Replace with your Formspree project ID
-  const [success, setSuccess] = useState(false)
-
-  const handleSuccess = () => {
-    setSuccess(true)
-  }
+  const [state, handleSubmit] = useForm("YOUR_FORMSPREE_ID")
 
   if (state.succeeded) {
     return (
@@ -26,7 +19,7 @@ export function ContactForm({ className }: ContactFormProps) {
   }
 
   return (
-    <form onSubmit={handleSubmit} className={cn('space-y-6', className)}>
+    <form onSubmit={handleSubmit} className={cn("space-y-6", className)}>
       {state.errors && state.errors.length > 0 && (
         <div className="rounded-md bg-red-50 p-4 text-sm text-red-700">
           {state.errors.map((error) => (
@@ -57,11 +50,7 @@ export function ContactForm({ className }: ContactFormProps) {
           required
           className="mt-1 block w-full rounded-md border border-border px-3 py-2 shadow-sm focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary"
         />
-        <ValidationError 
-          prefix="Email" 
-          field="email"
-          errors={state.errors}
-        />
+        <ValidationError prefix="Email" field="email" errors={state.errors} />
       </div>
       <div>
         <label htmlFor="message" className="block text-sm font-medium text-primary">
@@ -74,22 +63,18 @@ export function ContactForm({ className }: ContactFormProps) {
           rows={4}
           className="mt-1 block w-full rounded-md border border-border px-3 py-2 shadow-sm focus:border-[1px] focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary"
         />
-        <ValidationError 
-          prefix="Message" 
-          field="message"
-          errors={state.errors}
-        />
+        <ValidationError prefix="Message" field="message" errors={state.errors} />
       </div>
       <div>
         <button
           type="submit"
           disabled={state.submitting}
           className={cn(
-            'w-full rounded-md bg-primary px-4 py-2 text-sm font-medium text-white dark:text-primary-foreground shadow-sm hover:bg-primary/90 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2',
-            state.submitting && 'cursor-not-allowed opacity-50'
+            "w-full rounded-md bg-primary px-4 py-2 text-sm font-medium text-white dark:text-primary-foreground shadow-sm hover:bg-primary/90 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2",
+            state.submitting && "cursor-not-allowed opacity-50"
           )}
         >
-          {state.submitting ? 'Sending...' : 'Send Message'}
+          {state.submitting ? "Sending..." : "Send Message"}
         </button>
       </div>
     </form>

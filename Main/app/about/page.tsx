@@ -50,7 +50,7 @@ export default function AboutPage() {
           transition={{ duration: 0.8 }}
         >
           <h1 className="text-4xl md:text-5xl text-white mb-4">About Me</h1>
-          <p className="text-white/90 text-lg max-w-2xl">The story behind the lens</p>
+          <p className="text-white/90 text-lg max-w-2xl">Capturing the drive behind the details</p>
         </motion.div>
       </section>
       <div className="header-height"></div>
@@ -78,36 +78,36 @@ export default function AboutPage() {
             transition={{ duration: 0.6, delay: 0.2 }}
             viewport={{ once: true }}
           >
-            <h2 className="text-3xl md:text-4xl mb-6">The Journey</h2>
+            <h2 className="text-3xl md:text-4xl mb-6">Capturing the Drive | Srivibhu Ponakala</h2>
             <p className="text-primary mb-4">
-              I'm a professional photographer with over 10 years of experience capturing moments around the world. My
-              passion for photography began during a backpacking trip through Southeast Asia, where I discovered the
-              power of visual storytelling.
+              I’m a photographer based in Amherst, MA and Central Jersey, with roots in the NYC area and the Boston
+              area. I’m currently studying Computer Science at UMass Amherst, and my work blends a technical eye with
+              a love for real, lived moments.
             </p>
             <p className="text-primary mb-4">
-              Since then, I've traveled to over 30 countries, documenting landscapes, cultures, and urban environments.
-              My work has been featured in publications like National Geographic, Condé Nast Traveler, and Vogue.
+              From performance sedans to candid travel scenes, I’m drawn to clean composition, intentional light, and
+              the story behind the frame. I’m self‑taught, and every project pushes me to refine the craft.
             </p>
             <p className="text-primary mb-6">
-              I believe that photography has the power to connect people across cultures and inspire a deeper
-              appreciation for our world. Each image I create aims to tell a story and evoke emotion.
+              Whether it’s a car meet, a quiet street in Europe, or a personal project at home, I aim for images that
+              feel sharp, honest, and alive.
             </p>
             <div className="flex flex-wrap gap-4">
               <div className="flex items-center gap-2">
                 <Camera size={20} className="text-primary" />
-                <span className="text-primary">Fujifilm x100vi & Leica M10</span>
+                <span className="text-primary">Sony A7R3</span>
               </div>
               <div className="flex items-center gap-2">
                 <Globe size={20} className="text-primary" />
-                <span className="text-primary">30+ Countries</span>
+                <span className="text-primary">6+ Countries</span>
               </div>
               <div className="flex items-center gap-2">
                 <Award size={20} className="text-primary" />
-                <span className="text-primary">Award-winning</span>
+                <span className="text-primary">Self-taught</span>
               </div>
               <div className="flex items-center gap-2">
                 <Users size={20} className="text-primary" />
-                <span className="text-primary">Workshops & Mentoring</span>
+                <span className="text-primary">NYC · Boston · Central NJ</span>
               </div>
             </div>
           </motion.div>
@@ -124,24 +124,24 @@ export default function AboutPage() {
             transition={{ duration: 0.5 }}
             viewport={{ once: true }}
           >
-            My Philosophy
+            What I Shoot
           </motion.h2>
           <div className="grid md:grid-cols-3 gap-8">
             {[
               {
-                title: "Authenticity",
+                title: "Automotive",
                 description:
-                  "I believe in capturing authentic moments that tell real stories. My approach focuses on finding beauty in truth rather than manufacturing perfect scenes.",
+                  "From aggressive stances to subtle design lines, I focus on character, light, and presence.",
               },
               {
-                title: "Connection",
+                title: "Travel & Lifestyle",
                 description:
-                  "Photography creates connections - between viewer and subject, between cultures, and between people. I strive to foster these connections through my work.",
+                  "Documenting places, people, and atmosphere with clean composition and story‑first framing.",
               },
               {
-                title: "Respect",
+                title: "Personal Projects",
                 description:
-                  "I approach every environment and subject with deep respect. This means respecting cultures, natural spaces, and the stories I'm privileged to capture.",
+                  "Constant experiments—new techniques, color studies, and high‑energy subjects.",
               },
             ].map((item, index) => (
               <motion.div
@@ -175,34 +175,40 @@ export default function AboutPage() {
         <div className="space-y-12">
           {[
             {
-              year: "2013",
-              title: "First Exhibition",
+              year: "2023",
+              title: "The Foundation",
               description:
-                "Hosted my first photography exhibition in New York, featuring landscapes from across North America.",
+                "Took on my first job as a high‑school sophomore to save for my first professional camera setup.",
             },
             {
-              year: "2015",
-              title: "National Geographic Feature",
+              year: "2024",
+              title: "From Meets to Markets",
               description:
-                "My series on indigenous communities was featured in National Geographic, marking a significant milestone in my career.",
+                "Started photographing performance cars at local meets and sold high‑resolution prints and digital files to the community.",
             },
             {
-              year: "2018",
-              title: "Photography Book",
+              year: "2024–2025",
+              title: "Impact Through Imagery",
               description:
-                'Published my first photography book, "Perspectives," showcasing a decade of travel photography.',
+                "Partnered with non‑profits to document their work, helping them expand outreach through clean, story‑driven visuals.",
             },
             {
-              year: "2020",
-              title: "Photography Workshops",
+              year: "May–July 2025",
+              title: "Global Perspective",
               description:
-                "Began offering photography workshops and mentoring programs to share knowledge and techniques with aspiring photographers.",
+                "Photography Intern at Sadhu Vaswani Mission, sharpening technical skills in a fast‑paced, mission‑driven environment.",
+            },
+            {
+              year: "Fall 2025",
+              title: "International Expansion",
+              description:
+                "Documented life in Paris through the UMass Global Launch Program, focusing on architecture and street culture.",
             },
             {
               year: "Present",
-              title: "Ongoing Projects",
+              title: "The Technical Edge",
               description:
-                "Currently working on long-term documentary projects focused on environmental conservation and cultural preservation.",
+                "Blending Computer Science at UMass Amherst with automotive and lifestyle photography for precision and high‑end post‑processing.",
             },
           ].map((item, index) => (
             <motion.div

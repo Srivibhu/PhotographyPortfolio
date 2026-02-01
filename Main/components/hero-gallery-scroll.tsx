@@ -61,7 +61,7 @@ export function HeroGalleryScroll() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.3 }}
         >
-          Srivibhu Ponakala
+          Capturing the Drive
         </motion.h1>
         <motion.p
           className="my-6 max-w-xl text-primary "
@@ -69,7 +69,8 @@ export function HeroGalleryScroll() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.4 }}
         >
-           A photography portfolio showcasing curated visual stories and personal projects.        </motion.p>
+          Automotive, travel, and lifestyle photography with a clean, technical edge.
+        </motion.p>
         <div className="flex items-center flex-col md:flex-row justify-center gap-4">
           <motion.div
             initial={{ opacity: 0, y: 20 }}

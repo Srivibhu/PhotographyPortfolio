@@ -1,7 +1,7 @@
 "use client"
 
 import Image from "next/image"
-import { Mail, MapPin, Phone, Instagram, Twitter, Facebook, Youtube, Linkedin, Github } from "lucide-react"
+import { Mail, MapPin, Instagram, Github } from "lucide-react"
 import { ContactForm } from "@/components/contact-form"
 import { motion } from "framer-motion"
 import FeaturedCollections from "@/components/featured-collections"
@@ -68,7 +68,7 @@ export default function ContactPage() {
           >
             <h1 className="text-4xl md:text-5xl mb-6">Get in Touch</h1>
             <p className="text-primary/60 mb-8 max-w-md">
-              I'm always open to discussing new projects, creative ideas or opportunities to be part of your vision.
+              Open to collaborations, commissions, and creative projects across automotive, lifestyle, and events.
             </p>
 
             <motion.div
@@ -90,12 +90,12 @@ export default function ContactPage() {
                 {
                   icon: <Mail className="text-primary mt-1" size={20} />,
                   title: "Email",
-                  content: "contact@x100.com",
+                  content: "psrivibhu@gmail.com",
                 },
                 {
                   icon: <MapPin className="text-primary mt-1" size={20} />,
                   title: "Location",
-                  content: "31.9514° S, 115.8617° E",
+                  content: "NYC area · Boston area",
                 },
               ].map((item) => (
                 <motion.div
@@ -120,15 +120,11 @@ export default function ContactPage() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.6 }}
             >
-              <h3 className="text-xl mb-4">Keep Up To Date</h3>
+              <h3 className="text-xl mb-4">Keep Up to Date</h3>
               <div className="flex flex-wrap gap-1">
                 {[
-                  { icon: <Instagram size={26} />, label: "Instagram", href: "https://github.com/lilxyzz" },
-                  { icon: <Twitter size={26} />, label: "Twitter", href: "https://github.com/lilxyzz" },
-                  { icon: <Facebook size={26} />, label: "Facebook", href: "https://github.com/lilxyzz" },
-                  { icon: <Youtube size={26} />, label: "Youtube", href: "https://github.com/lilxyzz" },
-                  // { icon: <Linkedin size={20} />, label: "Linkedin", href: "https://linkedin.com" },
-                  { icon: <Github size={26} />, label: "Github", href: "https://github.com/lilxyzz" },
+                  { icon: <Instagram size={26} />, label: "Instagram", href: "https://instagram.com/captured.sri" },
+                  { icon: <Github size={26} />, label: "Github", href: "https://github.com/srivibhu" },
                 ].map((item) => (
                   <motion.a
                     key={item.label}
@@ -175,24 +171,24 @@ export default function ContactPage() {
           <div className="space-y-8">
             {[
               {
-                question: "Do you offer prints of your photographs?",
+                question: "What types of shoots do you take?",
                 answer:
-                  "Yes, most of my photographs are available as fine art prints. You can inquire about specific images through the contact form.",
+                  "Automotive, lifestyle, portraits, and events. If it feels story‑driven, I’m interested.",
               },
               {
-                question: "Are you available for commercial photography?",
+                question: "Do you offer prints or digital files?",
                 answer:
-                  "Absolutely. I work with brands and publications on commercial projects. Please reach out with details about your project for a custom quote.",
+                  "Yes — both. Send the image name or album and I’ll share options and pricing.",
               },
               {
-                question: "Do you offer photography workshops?",
+                question: "Are you available for commercial work?",
                 answer:
-                  "Yes, I regularly host workshops both in-person and online. Join my newsletter to be notified when new workshop dates are announced.",
+                  "Absolutely. I’m open to brand, nonprofit, and publication projects with a clear visual brief.",
               },
               {
-                question: "Can I license your photos for my website/publication?",
+                question: "Do you license images?",
                 answer:
-                  "Yes, licensing options are available for both digital and print use. Please contact me with details about your intended use for licensing information.",
+                  "Yes. Let me know usage, timeline, and placement and I’ll send a license quote.",
               },
             ].map((item, index) => (
               <motion.div
