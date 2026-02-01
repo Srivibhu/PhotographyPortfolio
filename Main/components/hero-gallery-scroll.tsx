@@ -5,39 +5,24 @@ import { Button } from "@/components/ui/button"
 import AnimatedButton from "@/components/animated-button"
 import { ArrowRight } from "lucide-react"
 import { motion } from "framer-motion"
-import { useEffect, useState } from "react"
+import { useMemo } from "react"
 
 const DEMO_IMAGES: string[] = []
 
 export function HeroGalleryScroll() {
-  const [images, setImages] = useState<string[]>([])
-  const fallbackImages = Array.from({ length: 9 - images.length }, () => "/placeholder.svg")
-  const gridImages = (images.length >= 9 ? images.slice(0, 9) : [...images, ...fallbackImages]).map(
-    (src, index) => ({
+  const gridImages = useMemo(() => {
+    const cloudName = process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME || ""
+    const baseUrl = cloudName ? `https://res.cloudinary.com/${cloudName}/image/upload/f_auto,q_auto/` : ""
+    const urls = HERO_PUBLIC_IDS.map((publicId) =>
+      baseUrl ? `${baseUrl}${publicId}` : "/placeholder.svg",
+    )
+    const fallbackImages = Array.from({ length: Math.max(0, 9 - urls.length) }, () => "/placeholder.svg")
+    const merged = urls.length >= 9 ? urls.slice(0, 9) : [...urls, ...fallbackImages]
+
+    return merged.map((src, index) => ({
       src,
       position: gridPositions[index] || "50% 50%",
-    }),
-  )
-
-  useEffect(() => {
-    let isMounted = true
-    fetch("/api/cloudinary/collections?allPhotos=true")
-      .then((res) => res.json())
-      .then((data) => {
-        if (!isMounted) return
-        const urls = (data.photos || [])
-          .map((photo: { src: string }) => photo.src)
-          .filter(Boolean)
-        setImages(urls)
-      })
-      .catch(() => {
-        if (!isMounted) return
-        setImages([])
-      })
-
-    return () => {
-      isMounted = false
-    }
+    }))
   }, [])
 
   return (
@@ -110,6 +95,18 @@ const gridPositions = [
   "50% 40%",
   "50% 55%",
   "50% 35%",
+]
+
+const HERO_PUBLIC_IDS = [
+  "portfolio/paris/dsc06244",
+  "portfolio/paris/dsc05341",
+  "portfolio/trails/dsc05006",
+  "portfolio/trails/dsc04730",
+  "portfolio/dallas/dsc08060-enhanced-nr",
+  "portfolio/paris/dsc06310",
+  "portfolio/landscape/20230723-195102-1692105454020",
+  "portfolio/dallas/dsc08058",
+  "portfolio/nyc/dsc00802",
 ]
 
 export function HeroDemo1() {

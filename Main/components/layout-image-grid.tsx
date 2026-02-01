@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useMemo, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { cn } from "@/lib/utils";
 import Image from "next/image";
@@ -137,34 +137,26 @@ export function LayoutGridDemo() {
     },
   ]);
 
-  useEffect(() => {
-    let isMounted = true
-    fetch("/api/cloudinary/collections?allPhotos=true")
-      .then((res) => res.json())
-      .then((data) => {
-        if (!isMounted) return
-        const photos = data.photos || []
-        const nextCards = photos.slice(0, 4).map((photo: any, index: number) => ({
-          id: index + 1,
-          content: (
-            <CardContent title={`Photo ${index + 1}`} description="From your Cloudinary collection" />
-          ),
-          className: index % 3 === 0 ? "md:col-span-2" : "col-span-1",
-          thumbnail: photo.src || "/placeholder.svg",
-        }))
+  const heroCards = useMemo(() => {
+    const cloudName = process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME || ""
+    const baseUrl = cloudName ? `https://res.cloudinary.com/${cloudName}/image/upload/f_auto,q_auto/` : ""
+    const urls = GRID_PUBLIC_IDS.map((publicId) =>
+      baseUrl ? `${baseUrl}${publicId}` : "/placeholder.svg",
+    )
 
-        if (nextCards.length) {
-          setCards(nextCards)
-        }
-      })
-      .catch(() => {
-        if (!isMounted) return
-      })
-
-    return () => {
-      isMounted = false
-    }
+    return urls.map((src, index) => ({
+      id: index + 1,
+      content: <CardContent title={`Photo ${index + 1}`} description="From your Cloudinary collection" />,
+      className: index % 3 === 0 ? "md:col-span-2" : "col-span-1",
+      thumbnail: src,
+    }))
   }, [])
+
+  React.useEffect(() => {
+    if (heroCards.length) {
+      setCards(heroCards)
+    }
+  }, [heroCards])
 
   return (
     <div className="h-screen py-20 w-full">
@@ -172,3 +164,10 @@ export function LayoutGridDemo() {
     </div>
   );
 }
+
+const GRID_PUBLIC_IDS = [
+  "portfolio/nyc/dsc00774-enhanced-nr",
+  "portfolio/jewlewry-store/dsc08471",
+  "portfolio/svm/dsc01912-enhanced-nr",
+  "portfolio/svm/dsc09789",
+];
