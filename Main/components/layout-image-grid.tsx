@@ -9,6 +9,7 @@ type Card = {
   content: React.ReactNode;
   className: string;
   thumbnail: string;
+  focus?: string;
 };
 
 const CardContent = ({ title, description }: { title: string; description: string }) => {
@@ -80,9 +81,10 @@ const ImageComponent = ({ card }: { card: Card }) => {
       height="500"
       width="500"
       className={cn(
-        "object-cover object-top absolute inset-0 h-full w-full transition duration-200"
+        "object-cover absolute inset-0 h-full w-full transition duration-200"
       )}
       alt="thumbnail"
+      style={{ objectPosition: card.focus || "50% 50%" }}
     />
   );
 };
@@ -149,6 +151,7 @@ export function LayoutGridDemo() {
       content: <CardContent title={`Photo ${index + 1}`} description="From your Cloudinary collection" />,
       className: index % 3 === 0 ? "md:col-span-2" : "col-span-1",
       thumbnail: src,
+      focus: gridFocusPositions[index] || "50% 50%",
     }))
   }, [])
 
@@ -171,3 +174,5 @@ const GRID_PUBLIC_IDS = [
   "portfolio/svm/dsc01912-enhanced-nr",
   "portfolio/svm/dsc09789",
 ];
+
+const gridFocusPositions = ["50% 50%", "50% 70%", "50% 50%", "50% 70%"];
