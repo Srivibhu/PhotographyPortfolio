@@ -92,7 +92,7 @@ export async function fetchAllCloudinaryPhotos(maxResults: number = 500): Promis
       Authorization: buildAuthHeader(),
     },
     body: JSON.stringify({
-      expression: `folder:${CLOUDINARY_BASE_FOLDER}`,
+      expression: `folder:${CLOUDINARY_BASE_FOLDER}/*`,
       max_results: maxResults,
       sort_by: [{ created_at: "desc" }],
     }),
