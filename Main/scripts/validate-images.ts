@@ -26,6 +26,14 @@ const collectionImages: Record<string, { count: number; formats: string[] }> = {
   'urban-portraits': { 
     count: 16,
     formats: ['jpg']
+  },
+  'europe': {
+    count: 20,
+    formats: ['jpg', 'jpeg']
+  },
+  'events': {
+    count: 15,
+    formats: ['jpg', 'jpeg']
   }
 }
 
@@ -36,7 +44,9 @@ const collectionFormats: Record<string, string> = {
   'tokyo': 'jpg',
   'new-zealand': 'jpg',
   'iceland': 'jpg',
-  'urban-portraits': 'jpg'
+  'urban-portraits': 'jpg',
+  'europe': 'jpg',
+  'events': 'jpg'
 }
 
 // Collection folder name mapping (for case sensitivity)
@@ -46,7 +56,9 @@ const collectionFolders: Record<string, string> = {
   'tokyo': 'Tokyo',
   'new-zealand': 'new zealand',
   'iceland': 'Iceland',
-  'urban-portraits': 'Urban Portraits'
+  'urban-portraits': 'Urban Portraits',
+  'europe': 'Europe',
+  'events': 'Events'
 }
 
 interface ValidationResult {

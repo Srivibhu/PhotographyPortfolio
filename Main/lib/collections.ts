@@ -62,6 +62,26 @@ const collectionConfigs = [
     tags: ["Outdoor", "Landscape", "Adventure"],
     featured: false,
   },
+  {
+    id: "7",
+    slug: "europe",
+    title: "Europe",
+    description: "European adventures and city explorations",
+    fullDescription:
+      "Capturing the essence of European cities, architecture, and culture through the lens of travel and discovery.",
+    tags: ["Travel", "Architecture", "Culture"],
+    featured: true,
+  },
+  {
+    id: "8",
+    slug: "events",
+    title: "Events",
+    description: "Special moments and celebrations",
+    fullDescription:
+      "Documenting life's special moments, from weddings to corporate events, capturing emotions and memories that last forever.",
+    tags: ["Events", "Celebration", "Portrait"],
+    featured: false,
+  },
 ]
 
 export function getCollectionConfigs() {
