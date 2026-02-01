@@ -92,7 +92,7 @@ export async function fetchAllCloudinaryPhotos(maxResults: number = 500): Promis
       Authorization: buildAuthHeader(),
     },
     body: JSON.stringify({
-      expression: `folder:*`,
+      expression: `folder:${CLOUDINARY_BASE_FOLDER}/*`,
       max_results: maxResults,
       sort_by: [{ created_at: "desc" }],
     }),
@@ -148,6 +148,5 @@ export function getCloudinaryFolder(slug: string) {
   }
 
   const actualFolder = folderMapping[slug] || slug
-  // Don't prepend base folder for individual collections - they seem to be at root level
-  return actualFolder
+  return `${CLOUDINARY_BASE_FOLDER}/${actualFolder}`
 }

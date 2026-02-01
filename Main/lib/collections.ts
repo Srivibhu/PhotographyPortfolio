@@ -166,7 +166,7 @@ export async function getCollection(slug: string): Promise<Collection | undefine
       // Special handling for events - merge multiple folders
       const eventFolders = ['mata24 event', 'nats event', 'svm-events', 'new-year-23']
       const allPhotos = await Promise.all(
-        eventFolders.map(folder => fetchCloudinaryPhotos(folder))
+        eventFolders.map(folder => fetchCloudinaryPhotos(`${CLOUDINARY_BASE_FOLDER}/${folder}`))
       )
       photos = allPhotos.flat()
       // Sort by creation date, most recent first
@@ -199,7 +199,7 @@ export async function getFeaturedCollections(): Promise<Collection[]> {
           // Special handling for events - merge multiple folders
           const eventFolders = ['mata24 event', 'nats event', 'svm-events', 'new-year-23']
           const allPhotos = await Promise.all(
-            eventFolders.map(folder => fetchCloudinaryPhotos(folder, 1))
+            eventFolders.map(folder => fetchCloudinaryPhotos(`${CLOUDINARY_BASE_FOLDER}/${folder}`, 1))
           )
           const firstPhoto = allPhotos.flat()[0]
           coverImage = firstPhoto?.src || ""
