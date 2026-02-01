@@ -18,10 +18,21 @@ interface CloudinaryResource {
   }
 }
 
+type FolderQuery = string | string[]
+
 function assertCloudinaryConfig() {
   if (!CLOUDINARY_CLOUD_NAME || !CLOUDINARY_API_KEY || !CLOUDINARY_API_SECRET) {
     throw new Error("Missing Cloudinary environment variables.")
   }
+}
+
+function buildFolderExpression(folder: FolderQuery) {
+  const folders = Array.isArray(folder) ? folder : [folder]
+  const clauses = folders.map((value) => {
+    const sanitized = value.replace(/"/g, '\\"')
+    return `folder="${sanitized}"`
+  })
+  return clauses.join(" OR ")
 }
 
 function buildAuthHeader() {
@@ -37,7 +48,7 @@ function slugToTitle(slug: string) {
     .replace(/\b\w/g, (c) => c.toUpperCase()) || "Photo"
 }
 
-export async function fetchCloudinaryPhotos(folder: string, maxResults: number = 120): Promise<Photo[]> {
+export async function fetchCloudinaryPhotos(folder: FolderQuery, maxResults: number = 120): Promise<Photo[]> {
   assertCloudinaryConfig()
 
   const url = `https://api.cloudinary.com/v1_1/${CLOUDINARY_CLOUD_NAME}/resources/search`
@@ -48,7 +59,7 @@ export async function fetchCloudinaryPhotos(folder: string, maxResults: number =
       Authorization: buildAuthHeader(),
     },
     body: JSON.stringify({
-      expression: `folder:${CLOUDINARY_BASE_FOLDER}/*`,
+      expression: buildFolderExpression(folder),
       max_results: maxResults,
       sort_by: [{ created_at: "desc" }],
     }),
@@ -125,24 +136,27 @@ export async function fetchAllCloudinaryPhotos(maxResults: number = 500): Promis
   }))
 }
 
-export function getCloudinaryFolder(slug: string) {
+export function getCloudinaryFolder(slug: string): FolderQuery {
   // Map slugs to actual Cloudinary folder names
-  const folderMapping: Record<string, string> = {
-    'portraits-beach': 'Portraits - Beach',
-    'portraits-studio': 'Portraits - Studio',
-    'portraits-street': 'Portraits - Street',
-    'portraits-wedding': 'Portraits - Wedding',
-    'landscapes': 'Landscapes',
-    'street-photography': 'Street Photography',
-    'events-birthday': 'Events - Birthday',
-    'events-corporate': 'Events - Corporate',
-    'events-wedding': 'Events - Wedding',
-    'europe': 'Europe',
-    'events': 'Events',
-    'architecture': 'Architecture',
-    'nature': 'Nature',
+  const folderMapping: Record<string, string | string[]> = {
+    "portraits-beach": "Portraits - Beach",
+    "portraits-family": "Portraits - Family",
+    "portraits-graduation": "Portraits - Graduation",
+    "portraits-nj-moments": "Portraits - NJ Moments",
+    "portraits-metuchen": "Portraits - Metuchen",
+    "landscapes-dallas": "Landscapes - Dallas",
+    "landscapes-nature": "Landscapes - Nature",
+    "commercial-jewelry": "Commercial - Jewelry",
+    "events": ["mata24 event", "nats event", "svm-events", "new-year-23"],
+    "nyc": "nyc",
+    "europe": "Europe",
+    "trails": "trails",
+    "random": "random",
   }
 
   const actualFolder = folderMapping[slug] || slug
+  if (Array.isArray(actualFolder)) {
+    return actualFolder.map((folder) => `${CLOUDINARY_BASE_FOLDER}/${folder}`)
+  }
   return `${CLOUDINARY_BASE_FOLDER}/${actualFolder}`
 }
