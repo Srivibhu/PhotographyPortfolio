@@ -12,13 +12,16 @@ export default function AboutPage() {
 
   useEffect(() => {
     let isMounted = true
-    fetch("/api/cloudinary/author")
+    fetch("/api/cloudinary/author?count=2")
       .then((res) => res.json())
       .then((data) => {
         if (!isMounted) return
-        const authorImage = data.image || ""
-        setHeroImage(authorImage)
-        setBioImage(authorImage)
+        const images: string[] = Array.isArray(data.images) ? data.images : []
+        // Use two distinct photos from the Author folder so the hero background
+        // and bio portrait don't show the same image twice. Fall back to the
+        // single image if the folder only has one photo.
+        setHeroImage(images[0] || "")
+        setBioImage(images[1] || images[0] || "")
       })
       .catch(() => {
         if (!isMounted) return

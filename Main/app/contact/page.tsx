@@ -15,6 +15,9 @@ export default function ContactPage() {
 
   useEffect(() => {
     let isMounted = true
+    // Intentionally uses the top featured collection's cover photo (not an Author-folder
+    // portrait) as a scenic banner — the About page already owns the "meet the
+    // photographer" portraits, so Contact stays visually distinct from it.
     fetch("/api/cloudinary/collections?featured=true")
       .then((res) => res.json())
       .then((data) => {
