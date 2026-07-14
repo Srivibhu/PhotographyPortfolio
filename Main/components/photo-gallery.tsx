@@ -103,22 +103,12 @@ export function PhotoGallery({ photos, className }: PhotoGalleryProps) {
 
   // Format photos for the PhotoAlbum component
   const photoAlbumPhotos = validPhotos.map((photo, index) => {
-    const metadata = {
-      camera: "No capture data recorded",
-      focalLength: "",
-      aperture: "",
-      shutterSpeed: "",
-      iso: "",
-      lens: "",
-      takenAt: ""
-    }
-
     return {
       src: photo.src,
       width: photo.width,
       height: photo.height,
       alt: photo.alt || "Photo",
-      photo: { ...photo, metadata },
+      photo,
       key: photo.id || `photo-${index}-${photo.src}-${photo.width}-${photo.height}`,
       onError: handlePhotoError,
     }
@@ -407,17 +397,17 @@ export function PhotoGallery({ photos, className }: PhotoGalleryProps) {
                   {currentPhoto.metadata && (
                     <div className="flex items-center gap-2 text-sm text-white/70">
                       <Camera size={14} />
-                      {/* <span>{currentPhoto.metadata.camera}</span> */}
-                      <span>Sony A7R3</span>
-                      {currentPhoto.metadata.focalLength && <span>| {currentPhoto.metadata.focalLength}</span>}
-                      <span>|</span>
-                      {currentPhoto.metadata.aperture && <span>| {currentPhoto.metadata.aperture}</span>}
-                      <span>|</span>
-                      {currentPhoto.metadata.shutterSpeed && <span>| {currentPhoto.metadata.shutterSpeed}</span>}
-                      {currentPhoto.metadata.iso && <span>| ISO {currentPhoto.metadata.iso}</span>}
-                      {(!currentPhoto.metadata.camera && !currentPhoto.metadata.focalLength && !currentPhoto.metadata.aperture && !currentPhoto.metadata.shutterSpeed && !currentPhoto.metadata.iso) && (
-                        <span>No capture data recorded</span>
-                      )}
+                      <span>
+                        {[
+                          currentPhoto.metadata.camera,
+                          currentPhoto.metadata.focalLength,
+                          currentPhoto.metadata.aperture,
+                          currentPhoto.metadata.shutterSpeed,
+                          currentPhoto.metadata.iso && `ISO ${currentPhoto.metadata.iso}`,
+                        ]
+                          .filter(Boolean)
+                          .join(" | ") || "No capture data recorded"}
+                      </span>
                     </div>
                   )}
                 </div>

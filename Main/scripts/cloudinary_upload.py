@@ -12,6 +12,28 @@ import cloudinary.uploader
 IMAGE_EXTENSIONS = {".jpg", ".jpeg", ".png", ".webp"}
 MAX_UPLOAD_BYTES = 10 * 1024 * 1024  # 10 MB
 
+# EXIF tag IDs that live in the top-level IFD0.
+_ALLOWED_IFD0_TAGS = {
+    271,  # Make
+    272,  # Model
+}
+
+# The rest of the technical/exposure tags live in the "Exif" sub-IFD,
+# pointed to from IFD0 by tag 34665 (0x8769).
+_EXIF_SUBIFD_TAG = 0x8769  # 34665
+_ALLOWED_EXIF_SUBIFD_TAGS = {
+    33434,  # ExposureTime
+    33437,  # FNumber
+    34855,  # ISOSpeedRatings (aka PhotographicSensitivity)
+    37386,  # FocalLength
+    42035,  # LensMake
+    42036,  # LensModel
+}
+
+# Everything NOT in the allowlists above is dropped, which in particular
+# means GPSInfo (tag 34853 / 0x8825, and its entire sub-IFD) is always
+# stripped, along with any owner-name/serial-number/user-comment tags.
+
 
 def slugify(value: str) -> str:
     value = value.strip().lower()
@@ -20,13 +42,59 @@ def slugify(value: str) -> str:
     return value.strip("-")
 
 
+def _build_trimmed_exif(source_exif) -> bytes | None:
+    """Build a minimal EXIF blob containing only an allowlist of safe,
+    non-identifying technical tags (camera make/model, lens, exposure
+    settings). Deliberately excludes GPSInfo and every other tag/IFD
+    (owner name, serial number, comments, thumbnails, etc.) -- that's the
+    privacy protection strip_exif originally existed to provide, and it's
+    preserved here even though we now keep a subset of tags.
+    """
+    if not source_exif:
+        return None
+
+    trimmed = Image.Exif()
+    has_data = False
+
+    for tag_id in _ALLOWED_IFD0_TAGS:
+        if tag_id in source_exif:
+            trimmed[tag_id] = source_exif[tag_id]
+            has_data = True
+
+    try:
+        source_exif_subifd = source_exif.get_ifd(_EXIF_SUBIFD_TAG)
+    except Exception:
+        source_exif_subifd = {}
+
+    if source_exif_subifd:
+        trimmed_exif_subifd = trimmed.get_ifd(_EXIF_SUBIFD_TAG)
+        for tag_id in _ALLOWED_EXIF_SUBIFD_TAGS:
+            if tag_id in source_exif_subifd:
+                trimmed_exif_subifd[tag_id] = source_exif_subifd[tag_id]
+                has_data = True
+
+    if not has_data:
+        return None
+
+    return trimmed.tobytes()
+
+
 def strip_exif(image_path: Path) -> BytesIO:
     with Image.open(image_path) as img:
         format_name = img.format or image_path.suffix.replace(".", "").upper()
         if format_name.upper() == "JPG":
             format_name = "JPEG"
 
+        # Read EXIF before any resize/recompress below -- Pillow drops EXIF
+        # on re-save unless it's explicitly re-attached via save_kwargs.
+        # Only a trimmed, privacy-safe allowlist of tags is carried
+        # forward; see _build_trimmed_exif for exactly what's kept
+        # (notably: no GPS, no owner/serial/comment fields).
+        trimmed_exif_bytes = _build_trimmed_exif(img.getexif())
+
         save_kwargs = {}
+        if trimmed_exif_bytes:
+            save_kwargs["exif"] = trimmed_exif_bytes
         if format_name.upper() in {"JPEG", "JPG"}:
             if img.mode not in ("RGB", "L"):
                 img = img.convert("RGB")
@@ -105,6 +173,11 @@ def upload_file(image_path: Path, folder: str, dry_run: bool) -> None:
         unique_filename=False,
         resource_type="image",
         context=f"alt={slug.replace('-', ' ')}",
+        # The uploaded file only carries the trimmed, GPS-free EXIF subset
+        # built in strip_exif -- image_metadata=True just tells Cloudinary
+        # to extract/store whatever EXIF is present (i.e. that subset) so
+        # it's queryable later via the Admin API's image_metadata flag.
+        image_metadata=True,
     )
     print(f"Uploaded: {image_path.name} -> {folder}/{slug}")
 

@@ -16,6 +16,13 @@ interface CloudinaryResource {
       alt?: string
     }
   }
+  // Present only when the search request sets `image_metadata: true`.
+  // Cloudinary returns raw EXIF key/value pairs as strings, e.g.
+  // { "Make": "SONY", "Model": "ILCE-7RM3", "FNumber": "2.8", ... }.
+  // Only present for assets uploaded after scripts/cloudinary_upload.py
+  // started preserving a trimmed EXIF subset -- older assets that were
+  // uploaded with EXIF fully stripped will have this be empty/absent.
+  image_metadata?: Record<string, string>
 }
 
 type FolderQuery = string | string[]
@@ -48,6 +55,143 @@ function slugToTitle(slug: string) {
     .replace(/\b\w/g, (c) => c.toUpperCase()) || "Photo"
 }
 
+// Cloudinary's documented image_metadata response uses EXIF field names
+// (e.g. "Make", "Model", "FNumber"), but exact key casing isn't guaranteed
+// to be stable across API versions, so lookups here are case-insensitive
+// and check a few known aliases per field.
+function getMetadataField(
+  imageMetadata: Record<string, string> | undefined,
+  keys: string[]
+): string | undefined {
+  if (!imageMetadata) return undefined
+
+  for (const key of keys) {
+    const value = imageMetadata[key]
+    if (value) return value
+  }
+
+  const lowerCaseMap: Record<string, string> = {}
+  for (const [k, v] of Object.entries(imageMetadata)) {
+    lowerCaseMap[k.toLowerCase()] = v
+  }
+  for (const key of keys) {
+    const value = lowerCaseMap[key.toLowerCase()]
+    if (value) return value
+  }
+
+  return undefined
+}
+
+// EXIF rational values may arrive as a plain number string ("2.8"), or as
+// a "numerator/denominator" fraction string ("28/10"). Handle both.
+function parseExifRational(raw: string): number | null {
+  const trimmed = raw.trim()
+  if (!trimmed) return null
+
+  if (trimmed.includes("/")) {
+    const [numStr, denStr] = trimmed.split("/")
+    const numerator = Number(numStr)
+    const denominator = Number(denStr)
+    if (!Number.isFinite(numerator) || !Number.isFinite(denominator) || denominator === 0) {
+      return null
+    }
+    return numerator / denominator
+  }
+
+  const value = Number(trimmed)
+  return Number.isFinite(value) ? value : null
+}
+
+// Formats a number with at most `maxDecimals` places, dropping a
+// trailing ".0" so "2.0" reads as "2" but "2.8" is preserved.
+function formatTrimmedNumber(value: number, maxDecimals: number): string {
+  const rounded = Number(value.toFixed(maxDecimals))
+  return String(rounded)
+}
+
+function formatAperture(raw: string | undefined): string {
+  if (!raw) return ""
+  const value = parseExifRational(raw)
+  if (value === null || value <= 0) return ""
+  return `f/${formatTrimmedNumber(value, 1)}`
+}
+
+function formatShutterSpeed(raw: string | undefined): string {
+  if (!raw) return ""
+  const trimmed = raw.trim()
+
+  // Already a "numerator/denominator" fraction (the common EXIF shape
+  // for sub-second exposures, e.g. "1/500") -- keep it as-is.
+  if (/^\d+\/\d+$/.test(trimmed)) {
+    return `${trimmed}s`
+  }
+
+  const value = parseExifRational(trimmed)
+  if (value === null || value <= 0) return ""
+
+  if (value >= 1) {
+    return `${formatTrimmedNumber(value, 1)}s`
+  }
+
+  const denominator = Math.round(1 / value)
+  return denominator > 0 ? `1/${denominator}s` : ""
+}
+
+function formatIso(raw: string | undefined): string {
+  if (!raw) return ""
+  const value = parseExifRational(raw)
+  if (value === null || value <= 0) return ""
+  return String(Math.round(value))
+}
+
+function formatFocalLength(raw: string | undefined): string {
+  if (!raw) return ""
+  const value = parseExifRational(raw)
+  if (value === null || value <= 0) return ""
+  return `${formatTrimmedNumber(value, 1)}mm`
+}
+
+function buildPhotoMetadata(resource: CloudinaryResource) {
+  const imageMetadata = resource.image_metadata
+
+  const make = getMetadataField(imageMetadata, ["Make"])
+  const model = getMetadataField(imageMetadata, ["Model"])
+  const lensModel = getMetadataField(imageMetadata, ["LensModel", "LensInfo", "Lens"])
+  const lensMake = getMetadataField(imageMetadata, ["LensMake"])
+  const fNumber = getMetadataField(imageMetadata, ["FNumber", "ApertureValue"])
+  const exposureTime = getMetadataField(imageMetadata, ["ExposureTime", "ShutterSpeedValue"])
+  const iso = getMetadataField(imageMetadata, ["ISOSpeedRatings", "PhotographicSensitivity", "ISO"])
+  const focalLength = getMetadataField(imageMetadata, ["FocalLength"])
+
+  let camera = ""
+  if (model && make && !model.toLowerCase().includes(make.toLowerCase())) {
+    camera = `${make} ${model}`
+  } else if (model) {
+    camera = model
+  } else if (make) {
+    camera = make
+  }
+
+  let lens = ""
+  if (lensModel && lensMake && !lensModel.toLowerCase().includes(lensMake.toLowerCase())) {
+    lens = `${lensMake} ${lensModel}`
+  } else if (lensModel) {
+    lens = lensModel
+  } else if (lensMake) {
+    lens = lensMake
+  }
+
+  return {
+    camera,
+    lens,
+    aperture: formatAperture(fNumber),
+    shutterSpeed: formatShutterSpeed(exposureTime),
+    iso: formatIso(iso),
+    focalLength: formatFocalLength(focalLength),
+    takenAt: resource.created_at ? resource.created_at.split("T")[0] : "",
+  }
+}
+
 export async function fetchCloudinaryPhotos(folder: FolderQuery, maxResults: number = 120): Promise<Photo[]> {
   assertCloudinaryConfig()
 
@@ -62,6 +206,7 @@ export async function fetchCloudinaryPhotos(folder: FolderQuery, maxResults: num
       expression: buildFolderExpression(folder),
       max_results: maxResults,
       sort_by: [{ created_at: "desc" }],
+      image_metadata: true,
     }),
     cache: "no-store",
   })
@@ -80,15 +225,7 @@ export async function fetchCloudinaryPhotos(folder: FolderQuery, maxResults: num
     width: resource.width,
     height: resource.height,
     alt: resource.context?.custom?.alt || slugToTitle(resource.public_id),
-    metadata: {
-      camera: "",
-      lens: "",
-      aperture: "",
-      shutterSpeed: "",
-      iso: "",
-      focalLength: "",
-      takenAt: resource.created_at ? resource.created_at.split("T")[0] : "",
-    },
+    metadata: buildPhotoMetadata(resource),
   }))
 }
 
@@ -106,6 +243,7 @@ export async function fetchAllCloudinaryPhotos(maxResults: number = 500): Promis
       expression: `folder:${CLOUDINARY_BASE_FOLDER}/*`,
       max_results: maxResults,
       sort_by: [{ created_at: "desc" }],
+      image_metadata: true,
     }),
     cache: "no-store",
   })
@@ -124,15 +262,7 @@ export async function fetchAllCloudinaryPhotos(maxResults: number = 500): Promis
     width: resource.width,
     height: resource.height,
     alt: resource.context?.custom?.alt || slugToTitle(resource.public_id),
-    metadata: {
-      camera: "",
-      lens: "",
-      aperture: "",
-      shutterSpeed: "",
-      iso: "",
-      focalLength: "",
-      takenAt: resource.created_at ? resource.created_at.split("T")[0] : "",
-    },
+    metadata: buildPhotoMetadata(resource),
   }))
 }
 
@@ -145,14 +275,15 @@ export function getCloudinaryFolder(slug: string): FolderQuery {
     "portraits-nj-moments": "Portraits - NJ Moments",
     "portraits-metuchen": "Portraits - Metuchen",
     "landscapes-dallas": "Landscapes - Dallas",
-    "landscapes-nature": "Landscapes - Nature",
+    "landscapes-nature": ["Landscapes - Nature", "trails"],
     "commercial-jewelry": "Commercial - Jewelry",
     "events": ["mata24 event", "nats event", "svm-events", "new-year-23"],
     "nyc": "nyc",
     "europe": "Europe",
-    "trails": "trails",
     "random": "random",
     "author": "Author",
+    "automobiles": "automobiles",
+    "nightlife": "nightlife",
   }
 
   const actualFolder = folderMapping[slug] || slug

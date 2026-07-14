@@ -15,7 +15,7 @@ const collectionConfigs = [
   {
     id: "2",
     slug: "portraits-family",
-    title: "Family Portraits",
+    title: "Portraits",
     description: "Warm, candid family storytelling",
     fullDescription:
       "Natural, relaxed moments that highlight connection, joy, and the details that make each family unique.",
@@ -45,11 +45,11 @@ const collectionConfigs = [
   {
     id: "5",
     slug: "portraits-metuchen",
-    title: "Metuchen Portraits",
-    description: "Portraits around Metuchen",
+    title: "Street Photography",
+    description: "Candid street scenes around Metuchen",
     fullDescription:
-      "A local portrait series with soft light, genuine expression, and a timeless approach.",
-    tags: ["Portraits", "Metuchen", "New Jersey"],
+      "A local street series with candid framing, quiet moments, and everyday scenes around Metuchen.",
+    tags: ["Street Photography", "Metuchen", "New Jersey"],
     featured: true,
   },
   {
@@ -69,7 +69,7 @@ const collectionConfigs = [
     description: "Trails, parks, and natural light",
     fullDescription:
       "Natural landscapes with emphasis on light, texture, and calm atmosphere.",
-    tags: ["Landscapes", "Nature", "Outdoors"],
+    tags: ["Landscapes", "Nature", "Outdoors", "Trails"],
     featured: true,
   },
   {
@@ -113,16 +113,6 @@ const collectionConfigs = [
     featured: false,
   },
   {
-    id: "12",
-    slug: "trails",
-    title: "Trails",
-    description: "Hikes, paths, and outdoor quiet",
-    fullDescription:
-      "Trail photography centered on pace, atmosphere, and natural color.",
-    tags: ["Outdoors", "Trails", "Nature"],
-    featured: false,
-  },
-  {
     id: "13",
     slug: "random",
     title: "Personal Projects",
@@ -131,6 +121,26 @@ const collectionConfigs = [
       "A mix of personal experiments and unassigned work that still deserves a spotlight.",
     tags: ["Personal", "Experimental", "Mixed"],
     featured: false,
+  },
+  {
+    id: "14",
+    slug: "automobiles",
+    title: "Automobiles",
+    description: "Performance cars, meets, and detail shots",
+    fullDescription:
+      "Aggressive stances, subtle design lines, and the character of performance cars at meets and shoots.",
+    tags: ["Automotive", "Cars"],
+    featured: true,
+  },
+  {
+    id: "15",
+    slug: "nightlife",
+    title: "Nightlife",
+    description: "City lights and after-dark energy",
+    fullDescription:
+      "Low-light scenes, neon reflections, and the energy of the city after dark.",
+    tags: ["Nightlife", "City", "Low Light"],
+    featured: true,
   },
 ]
 
