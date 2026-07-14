@@ -28,3 +28,7 @@ next-env.d.ts
 
 # misc
 .DS_Store
+
+# python venv for scripts/cloudinary_upload.py
+.upload-venv/
+__pycache__/

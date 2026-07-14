@@ -1,8 +1,8 @@
 {
-  "name": "x100-nextjs-theme",
+  "name": "srivibhu-photography-portfolio",
   "version": "1.0.0",
   "private": true,
-  "author": "Travis Lord <hi@travislord.au>",
+  "author": "Srivibhu Ponakala <psrivibhu@gmail.com>",
   "scripts": {
     "validate-images": "ts-node scripts/validate-images.ts",
     "dev": "npm run validate-images -- --dry-run && next dev",
