@@ -270,7 +270,6 @@ export function getCloudinaryFolder(slug: string): FolderQuery {
   // Map slugs to actual Cloudinary folder names
   const folderMapping: Record<string, string | string[]> = {
     "portraits-beach": "Portraits - Beach",
-    "portraits-family": "Portraits - Family",
     "portraits-graduation": "Portraits - Graduation",
     "portraits-nj-moments": "Portraits - NJ Moments",
     "portraits-metuchen": "Portraits - Metuchen",

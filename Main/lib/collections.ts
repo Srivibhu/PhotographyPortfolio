@@ -13,34 +13,34 @@ const collectionConfigs = [
     featured: true,
   },
   {
-    id: "2",
-    slug: "portraits-family",
-    title: "Portraits",
-    description: "Warm, candid family storytelling",
+    id: "9",
+    slug: "events",
+    title: "Events",
+    description: "Live events, celebrations, and highlights",
     fullDescription:
-      "Natural, relaxed moments that highlight connection, joy, and the details that make each family unique.",
-    tags: ["Portraits", "Family", "Lifestyle"],
+      "A curated blend of event coverage, from large gatherings to intimate celebrations.",
+    tags: ["Events", "Celebration", "Documentary"],
+    featured: false,
+  },
+  {
+    id: "11",
+    slug: "europe",
+    title: "Europe",
+    description: "Travel photography across Europe",
+    fullDescription:
+      "A travel series focused on architecture, culture, and the rhythm of European cities.",
+    tags: ["Travel", "Europe", "Architecture"],
+    featured: false,
+  },
+  {
+    id: "15",
+    slug: "nightlife",
+    title: "Nightlife",
+    description: "City lights and after-dark energy",
+    fullDescription:
+      "Low-light scenes, neon reflections, and the energy of the city after dark.",
+    tags: ["Nightlife", "City", "Low Light"],
     featured: true,
-  },
-  {
-    id: "3",
-    slug: "portraits-graduation",
-    title: "Graduation Portraits",
-    description: "Milestone portraits with energy and pride",
-    fullDescription:
-      "Cap-and-gown portraits with celebratory details, captured with a bright, confident visual style.",
-    tags: ["Portraits", "Graduation", "Milestones"],
-    featured: false,
-  },
-  {
-    id: "4",
-    slug: "portraits-nj-moments",
-    title: "NJ Moments",
-    description: "Everyday portraits with a local feel",
-    fullDescription:
-      "Portraits and candid moments around New Jersey, focused on authenticity and subtle emotion.",
-    tags: ["Portraits", "New Jersey", "Lifestyle"],
-    featured: false,
   },
   {
     id: "5",
@@ -83,16 +83,6 @@ const collectionConfigs = [
     featured: false,
   },
   {
-    id: "9",
-    slug: "events",
-    title: "Events",
-    description: "Live events, celebrations, and highlights",
-    fullDescription:
-      "A curated blend of event coverage, from large gatherings to intimate celebrations.",
-    tags: ["Events", "Celebration", "Documentary"],
-    featured: false,
-  },
-  {
     id: "10",
     slug: "nyc",
     title: "New York City",
@@ -101,16 +91,6 @@ const collectionConfigs = [
       "A portrait of NYC through movement, architecture, and the energy of daily life.",
     tags: ["Travel", "NYC", "City"],
     featured: true,
-  },
-  {
-    id: "11",
-    slug: "europe",
-    title: "Europe",
-    description: "Travel photography across Europe",
-    fullDescription:
-      "A travel series focused on architecture, culture, and the rhythm of European cities.",
-    tags: ["Travel", "Europe", "Architecture"],
-    featured: false,
   },
   {
     id: "13",
@@ -133,14 +113,24 @@ const collectionConfigs = [
     featured: true,
   },
   {
-    id: "15",
-    slug: "nightlife",
-    title: "Nightlife",
-    description: "City lights and after-dark energy",
+    id: "3",
+    slug: "portraits-graduation",
+    title: "Graduation Portraits",
+    description: "Milestone portraits with energy and pride",
     fullDescription:
-      "Low-light scenes, neon reflections, and the energy of the city after dark.",
-    tags: ["Nightlife", "City", "Low Light"],
-    featured: true,
+      "Cap-and-gown portraits with celebratory details, captured with a bright, confident visual style.",
+    tags: ["Portraits", "Graduation", "Milestones"],
+    featured: false,
+  },
+  {
+    id: "4",
+    slug: "portraits-nj-moments",
+    title: "NJ Moments",
+    description: "Everyday portraits with a local feel",
+    fullDescription:
+      "Portraits and candid moments around New Jersey, focused on authenticity and subtle emotion.",
+    tags: ["Portraits", "New Jersey", "Lifestyle"],
+    featured: false,
   },
 ]
 
