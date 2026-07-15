@@ -3,14 +3,13 @@ import { notFound } from "next/navigation"
 import { CollectionContent } from "./collection-content"
 
 interface Props {
-  params: {
+  params: Promise<{
     slug: string
-  }
+  }>
 }
 
 export default async function CollectionPage({ params }: Props) {
-  // Ensure params is properly awaited
-  const slug = params.slug
+  const { slug } = await params
   const collection = await getCollection(slug)
 
   if (!collection) {

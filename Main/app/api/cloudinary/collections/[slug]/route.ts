@@ -2,14 +2,15 @@ import { NextResponse } from "next/server"
 import { getCollection } from "@/lib/collections"
 
 interface Params {
-  params: {
+  params: Promise<{
     slug: string
-  }
+  }>
 }
 
 export async function GET(request: Request, { params }: Params) {
   try {
-    const collection = await getCollection(params.slug)
+    const { slug } = await params
+    const collection = await getCollection(slug)
     if (!collection) {
       return NextResponse.json({ error: "Collection not found" }, { status: 404 })
     }
